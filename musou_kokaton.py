@@ -330,7 +330,7 @@ def main():
                 beams.add(Beam(bird))
 
             if event.type == pg.KEYDOWN and event.key == pg.K_TAB :
-                if score.score>50:
+                if score.score>=50:
                     gravity.add(Gravity(bird,500))#重力球の展開
                     score.score_down(50)#50点消費する
 
