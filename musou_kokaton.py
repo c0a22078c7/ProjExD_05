@@ -248,8 +248,8 @@ class Gravity(pg.sprite.Sprite):
         rad = 200
         color = (1,0,0)
         self.image = pg.Surface((2*rad, 2*rad))
-
         pg.draw.circle(self.image, color, (rad, rad), rad)
+        self.image.set_alpha(100)
         self.rect = self.image.get_rect()
         self.image.set_colorkey((0, 0, 0))
         self.rect.center = bird.rect.center
@@ -294,9 +294,7 @@ class Score:
         self.score += add
     def score_down(self,down):
         self.score -= down
-    def score_return(self):
-        x=self.score
-        return int(x)
+
 
     def update(self, screen: pg.Surface):
         self.image = self.font.render(f"Score: {self.score}", 0, self.color)
@@ -317,6 +315,9 @@ def main():
     gravity = pg.sprite.Group()
 
 
+    
+
+
 
     tmr = 0
     clock = pg.time.Clock()
@@ -328,10 +329,10 @@ def main():
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                 beams.add(Beam(bird))
 
-            if (event.type == pg.KEYDOWN and event.key == pg.K_TAB):
-                
-                gravity.add(Gravity(bird,500))#重力球の展開
-                score.score_down(50)#50点消費する
+            if event.type == pg.KEYDOWN and event.key == pg.K_TAB :
+                if score.score>50:
+                    gravity.add(Gravity(bird,500))#重力球の展開
+                    score.score_down(50)#50点消費する
 
         screen.blit(bg_img, [0, 0])
 
