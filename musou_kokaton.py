@@ -241,24 +241,24 @@ class Gravity(pg.sprite.Sprite):
     def __init__(self,bird:Bird,life:int):
         """
         引数１：発生対象のこうかとんbird
-        引数２：重力球の半径size
-        引数３：発動時間life
+        引数２：発動時間life
         """
         super().__init__()
         rad = 200
-        color = (1,0,0)
+        color = (1,0,0)#(0,0,0)だと透過してしまうため(1,0,0)
         self.image = pg.Surface((2*rad, 2*rad))
         pg.draw.circle(self.image, color, (rad, rad), rad)
         self.image.set_alpha(100)
         self.rect = self.image.get_rect()
         self.image.set_colorkey((0, 0, 0))
-        self.rect.center = bird.rect.center
+        self.rect.center = bird.rect.center#中心,速度をこうかとんと合わせる
         self.life = life
         self.speed = 10
 
     def update(self, key_lst: list[bool], screen: pg.Surface):
         """
- 
+        lifeが０になった場合は消滅する
+        こうかとんの移動に追従する
         """
         self.life -= 1
     
@@ -313,12 +313,6 @@ def main():
     exps = pg.sprite.Group()
     emys = pg.sprite.Group()
     gravity = pg.sprite.Group()
-
-
-    
-
-
-
     tmr = 0
     clock = pg.time.Clock()
     while True:
@@ -329,8 +323,8 @@ def main():
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                 beams.add(Beam(bird))
 
-            if event.type == pg.KEYDOWN and event.key == pg.K_TAB :
-                if score.score>=50:
+            if event.type == pg.KEYDOWN and event.key == pg.K_TAB :#Tabキーで重力球の展開
+                if score.score>=50:#スコアが５０未満の時は発動しない
                     gravity.add(Gravity(bird,500))#重力球の展開
                     score.score_down(50)#50点消費する
 
