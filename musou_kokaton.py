@@ -291,10 +291,17 @@ def main():
                 return 0
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                 beams.add(Beam(bird))
+
+            if event.type == pg.KEYDOWN and event.key == pg.K_LSHIFT:
+                bird.speed = 20
+            else:
+                bird.speed = 10
+
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE and key_lst[pg.K_LSHIFT]:  # 左シフトキーとスペースキーが同時に押されたとき複数のビームを出す
                 nb = NeoBeam(bird, 5)
                 beam_lst = nb.gen_beams()
                 beams.add(beam_lst)
+
 
         screen.blit(bg_img, [0, 0])
 
