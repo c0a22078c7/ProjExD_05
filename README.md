@@ -24,6 +24,6 @@
 * se: https://soundeffect-lab.info/sound/battle/battle2.html
 * bgm: https://peritune.com/blog/2022/12/23/conjurer/
 * mp3からwavへの変換: https://convertio.co/ja/download/dcf7d8ec76f54d98470e4f4dfd81e78f58bfa0/
-* 参考サイト: >http://westplain.sakura.ne.jp/translate/pygame/Music.cgi
+* 参考サイト: > http://westplain.sakura.ne.jp/translate/pygame/Music.cgi
 * https://shizenkarasuzon.hatenablog.com/entry/2019/02/24/090652
 * https://goodlucknetlife.com/python-shooting-bgm-se/
