@@ -9,10 +9,10 @@ import pygame as pg
 WIDTH = 1600  # ゲームウィンドウの幅
 HEIGHT = 900  # ゲームウィンドウの高さ
 
-b_beam = None  # ビームのSE
-e_kill = None  # 爆発のSE
-b_damame = None  # 攻撃を受けた時のSE
-gravity_bgm = None
+b_beam = None  # ビームのSE変数
+e_kill = None  # 爆発のSE変数
+b_damame = None  # 攻撃を受けた時のSE変数
+gravity_bgm = None  # 重力球を発動した時のSE変数
 
 
 def check_bound(obj: pg.Rect) -> tuple[bool, bool]:
@@ -359,13 +359,13 @@ def main():
     gravity = pg.sprite.Group()
     tmr = 0
     clock = pg.time.Clock()
-    e_kill = pg.mixer.Sound("ex04/bgm/explosion.wav")
-    b_beam = pg.mixer.Sound("ex04/bgm/beam.wav")
-    b_damame = pg.mixer.Sound("ex04/bgm/damage.wav")
-    gravity_bgm = pg.mixer.Sound("ex04/bgm/gravity.wav")
-    pg.mixer.music.set_volume(0.3)
-    pg.mixer.music.load("ex04/bgm/bgm.wav")
-    pg.mixer.music.play(-1)
+    e_kill = pg.mixer.Sound("ex04/bgm/explosion.wav")  # 爆発SE
+    b_beam = pg.mixer.Sound("ex04/bgm/beam.wav")  #ビームSE
+    b_damame = pg.mixer.Sound("ex04/bgm/damage.wav")  # ダメージSE
+    gravity_bgm = pg.mixer.Sound("ex04/bgm/gravity.wav")  # 重力球SE
+    pg.mixer.music.set_volume(0.3)  # 音量
+    pg.mixer.music.load("ex04/bgm/bgm.wav")  # 背景bgmを読み込み
+    pg.mixer.music.play(-1)  # 背景bgmを無限ループで再生
     while True:
         key_lst = pg.key.get_pressed()
         
@@ -374,7 +374,7 @@ def main():
                 return 0
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                 beams.add(Beam(bird))
-                b_beam.play()
+                b_beam.play()  # ビームSEの呼び出し
             if event.type == pg.KEYDOWN and event.key == pg.K_RSHIFT:   # 追加機能3
                 if (score.score > 100):
                     bird.change_state("hyper", 500)
@@ -383,7 +383,7 @@ def main():
                 if score.score>=50:#スコアが５０未満の時は発動しない
                     gravity.add(Gravity(bird,500))#重力球の展開
                     score.score_down(50)#50点消費する
-                    gravity_bgm.play()
+                    gravity_bgm.play()  # 重力球SEの呼び出し
             if event.type == pg.KEYDOWN and event.key == pg.K_LSHIFT:
                 bird.speed = 20
             else:
@@ -406,27 +406,27 @@ def main():
             exps.add(Explosion(emy, 100))  # 爆発エフェクト
             score.score_up(10)  # 10点アップ
             bird.change_img(6, screen)  # こうかとん喜びエフェクト
-            e_kill.play()
+            e_kill.play()  # 爆発SEの呼び出し
 
         for bomb in pg.sprite.groupcollide(bombs, beams, True, True).keys():
             exps.add(Explosion(bomb, 50))  # 爆発エフェクト
             score.score_up(1)  # 1点アップ
-            e_kill.play()
+            e_kill.play()  # 爆発SEの呼び出し
         for bomb in pg.sprite.groupcollide(bombs, gravity, True, False).keys():#重力球と爆弾の接触
             exps.add(Explosion(bomb, 50))  # 爆発エフェクト
             score.score_up(1)  # 1点アップ
-            e_kill.play()
+            e_kill.play()  # 爆発SEの呼び出し
 
 
         for bomb in pg.sprite.spritecollide(bird, bombs, True):
             if (bird.state == "hyper"): # hyperモードの時
                 exps.add(Explosion(bomb, 50))  # 爆発エフェクト
                 score.score_up(1)  # 1点アップ
-                e_kill.play()
+                e_kill.play()  # 爆発SEの呼び出し
             else:   # normalモードの時
                 bird.change_img(8, screen) # こうかとん悲しみエフェクト
-                pg.mixer.music.stop()
-                b_damame.play()
+                pg.mixer.music.stop()  # 背景bgmを止める
+                b_damame.play()  # ダメージSEの呼び出し
                 score.update(screen)
                 pg.display.update()
                 time.sleep(2)
